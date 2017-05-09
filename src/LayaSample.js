@@ -9,7 +9,7 @@
         var lodaTextTip,heroRun,ziDanLayers;
         (function GameInit(){
             Laya.init(WIN_W,WIN_H,Laya.WebGL);
-            // Laya.Stat.show(0,0); //显示帧数
+            // Laya.Stat.show(0,0); //显示帧数zx
             Laya.stage.alignH = Laya.Stage.ALIGN_CENTER;
             Laya.stage.alignV = Laya.Stage.ALIGN_TOP;
             Laya.stage.scaleMode = 'showall';

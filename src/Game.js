@@ -70,6 +70,7 @@ var Game=(function (_super) {
                 lodBall.t = 0;//时间
                 lodBall.a = 0.3;//重力加速度
                 lodBall.bin = false;
+                lodBall.crash = 2;
                 this.Ar_sent_ball.push(lodBall);
             };
             this.CanShoot = false;
@@ -94,6 +95,7 @@ var Game=(function (_super) {
         _proto.gameOver = function(){
             Laya.timer.clearAll(this);
             Laya.Tween.clearAll(this);
+            this.CanShoot = false;
             this.GameOver = new GameOverUI()
             this.GameOver.zOrder  = 999;
             this.addChild(this.GameOver);
@@ -191,7 +193,7 @@ var Game=(function (_super) {
                         
                     }else if(this.Ar_sent_ball[i].status == 2){
                         this.Ar_sent_ball[i].t = 0;
-                        this.Ar_sent_ball[i].v -=this.Ar_sent_ball[i].a*1.8;
+                        this.Ar_sent_ball[i].v -=this.Ar_sent_ball[i].a;
                         this.Ar_sent_ball[i].y -=this.Ar_sent_ball[i].v;
                         if(this.Ar_sent_ball[i].v < 0){
                             this.Ar_sent_ball[i].status = 1;
@@ -223,11 +225,13 @@ var Game=(function (_super) {
                                     this.Ar_sent_ball[j].status = 3;
                                 }
                                 //框的x+20  大于球的x
-                                else if(s.Ar_hoop[key].x+20>this.Ar_sent_ball[j].x && this.Ar_sent_ball[j].x > s.Ar_hoop[key].x-40){
+                                else if(s.Ar_hoop[key].x+20>this.Ar_sent_ball[j].x && this.Ar_sent_ball[j].x > s.Ar_hoop[key].x-40 && this.Ar_sent_ball[j].crash > 0){
+                                    this.Ar_sent_ball[j].crash--;
                                     this.Ar_sent_ball[j].status = 2;
                                 }
                                 //球的x 大于框的x加30  
-                                else if(this.Ar_sent_ball[j].x >s.Ar_hoop[key].x+30){
+                                else if(this.Ar_sent_ball[j].x >s.Ar_hoop[key].x+30 && this.Ar_sent_ball[j].crash>0){
+                                    this.Ar_sent_ball[j].crash--;
                                     this.Ar_sent_ball[j].status = 2;
                                 }
                                 }
@@ -237,17 +241,6 @@ var Game=(function (_super) {
             }
              
         };
-
-         //获取角度方法
-        _proto.get_angle=function(e){
-        //    if(e.stageY>=Laya.stage.height-100) return;
-            //角度计算
-            var height =  350 - e.stageX; //获取起点到终点之间的高度 
-            var width =   900 - e.stageY;  //获取起点到终点之间的宽度 
-            var angle = Math.atan2(height,width); //角度计算
-            var _angle = angle * 180 / Math.PI; //计算con值
-            return _angle;
-       };
         return Game;
 
 })(ui.GameUI);

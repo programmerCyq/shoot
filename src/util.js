@@ -104,7 +104,6 @@ var util = (function () {
             hoop.bottom_frame_normal.visible = false;
             hoop.bottom_frame_hit.visible = true;
             hoop.light.visible = true;
-             
             ball.visible=false;
             setTimeout(function() {
                 hoop.bottom_frame_normal.visible = true;
@@ -118,14 +117,22 @@ var util = (function () {
                  hoop.miss.visible= false;
             }, 500);
             };
-            
+            s.score_3_n +=hoop.score;
+            if(s.score_3_n >=10){
+                s.score_3_n = s.score_3_n -10;
+                s.score_2_n++;
+                if(s.score_2_n>=10){
+                    s.score_2_n = s.score_2_n - 10;
+                    s.score_1_n ++;
+                }
+            };
             if(hoop.isComBo){
                 s.combo_2.index++;
                 if(s.combo_2.index >=10){
                     s.combo_2.index = s.combo_1.index - 10;
                     s.combo_1.index++;
                 };
-                s.combo.visible = true;
+                s.combo.visible= true;
                 s.combo_1.visible = true;
                 s.combo_2.visible = true;
                 ball.bin = true;
@@ -137,15 +144,6 @@ var util = (function () {
             }else{
                 s.combo_1.index = 0;
                 s.combo_2.index = 0;
-            };
-            s.score_3_n +=hoop.score;
-            if(s.score_3_n >=10){
-                s.score_3_n = s.score_3_n -10;
-                s.score_2_n++;
-                if(s.score_2_n>=10){
-                    s.score_2_n = s.score_2_n - 10;
-                    s.score_1_n ++;
-                }
             };
         }
         return util;
